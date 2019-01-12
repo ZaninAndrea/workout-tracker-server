@@ -27,12 +27,27 @@ app.post("/workout", async (req, res) => {
     }
 })
 
-app.get("/workouts/:date", async (req, res) => {
+app.get("/workouts/date/:date", async (req, res) => {
     const date = req.params.date
     try {
         const workouts = await findAllWorkouts({ date })
 
         res.send(workouts)
+    } catch (e) {
+        res.statusCode(500).send("Internal error")
+    }
+})
+
+app.get("/workout/id/:id", async (req, res) => {
+    const id = req.params.id
+    try {
+        const workout = await findAllWorkouts({ _id: id })
+
+        if (workout.length !== 0) {
+            res.send(workout[0])
+        } else {
+            res.send(null)
+        }
     } catch (e) {
         res.statusCode(500).send("Internal error")
     }
