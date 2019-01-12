@@ -1,6 +1,7 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
+const { ObjectId } = require("mongodb")
 const {
     insertWorkout,
     findAllWorkouts,
@@ -38,10 +39,10 @@ app.get("/workouts/date/:date", async (req, res) => {
     }
 })
 
-app.get("/workout/id/:id", async (req, res) => {
-    const id = req.params.id
+app.get("/workout/id/:_id", async (req, res) => {
+    const _id = req.params._id
     try {
-        const workout = await findAllWorkouts({ _id: id })
+        const workout = await findAllWorkouts({ _id: ObjectId(_id) })
 
         if (workout.length !== 0) {
             res.send({ workout: workout[0] })
