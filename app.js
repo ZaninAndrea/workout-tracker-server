@@ -21,7 +21,7 @@ app.post("/workout", async (req, res) => {
     try {
         const workout = await insertWorkout(data)
 
-        res.send(workout.insertedId)
+        res.send({ _id: workout.insertedId })
     } catch (e) {
         res.statusCode(500).send("Internal error")
     }
@@ -32,7 +32,7 @@ app.get("/workouts/date/:date", async (req, res) => {
     try {
         const workouts = await findAllWorkouts({ date })
 
-        res.send(workouts)
+        res.send({ workouts })
     } catch (e) {
         res.statusCode(500).send("Internal error")
     }
@@ -44,9 +44,9 @@ app.get("/workout/id/:id", async (req, res) => {
         const workout = await findAllWorkouts({ _id: id })
 
         if (workout.length !== 0) {
-            res.send(workout[0])
+            res.send({ workout: workout[0] })
         } else {
-            res.send(null)
+            res.send({ workout: null })
         }
     } catch (e) {
         res.statusCode(500).send("Internal error")
@@ -58,7 +58,7 @@ app.get("/workouts", async (req, res) => {
     try {
         const workouts = await findAllWorkouts({})
 
-        res.send(workouts)
+        res.send({ workouts })
     } catch (e) {
         res.statusCode(500).send("Internal error")
     }
@@ -69,7 +69,7 @@ app.post("/exercise", async (req, res) => {
     try {
         const exercise = await insertExercise(data)
 
-        res.send(exercise.insertedId)
+        res.send({ _id: exercise.insertedId })
     } catch (e) {
         res.statusCode(500).send("Internal error")
     }
@@ -79,7 +79,7 @@ app.get("/exercises", async (req, res) => {
     try {
         const exercises = await findAllExercises({})
 
-        res.send(exercises)
+        res.send({ exercises })
     } catch (e) {
         res.statusCode(500).send("Internal error")
     }
