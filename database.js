@@ -57,9 +57,34 @@ function findAllWorkouts(query) {
     })
 }
 
+function insertExercise(data) {
+    return new Promise(async (resolve, reject) => {
+        const db = await getDbConnection()
+
+        db.collection("exercises").insertOne(data, function(err, res) {
+            if (err) reject(err)
+            else resolve(res)
+        })
+    })
+}
+function findAllExercises(query) {
+    return new Promise(async (resolve, reject) => {
+        const db = await getDbConnection()
+
+        db.collection("exercises")
+            .find(query)
+            .toArray(function(err, res) {
+                if (err) reject(err)
+                else resolve(res)
+            })
+    })
+}
+
 module.exports = {
     getDbConnection,
     createCollection,
     insertWorkout,
     findAllWorkouts,
+    insertExercise,
+    findAllExercises,
 }

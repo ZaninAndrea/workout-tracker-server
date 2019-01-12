@@ -1,6 +1,11 @@
 const express = require("express")
 const bodyParser = require("body-parser")
-const { insertWorkout, findAllWorkouts } = require("./database")
+const {
+    insertWorkout,
+    findAllWorkouts,
+    findAllExercises,
+    insertExercise,
+} = require("./database")
 
 const app = express()
 app.use(bodyParser.json())
@@ -26,6 +31,27 @@ app.get("/workouts/:date", async (req, res) => {
         const workouts = await findAllWorkouts({ date })
 
         res.send(workouts)
+    } catch (e) {
+        res.statusCode(500).send("Internal error")
+    }
+})
+
+app.post("/exercise", async (req, res) => {
+    const data = req.body
+    try {
+        const exercise = await insertExercise(data)
+
+        res.send(exercise.insertedId)
+    } catch (e) {
+        res.statusCode(500).send("Internal error")
+    }
+})
+
+app.get("/exercises", async (req, res) => {
+    try {
+        const exercises = await findAllExercises({})
+
+        res.send(exercises)
     } catch (e) {
         res.statusCode(500).send("Internal error")
     }
