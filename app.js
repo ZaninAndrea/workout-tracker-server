@@ -38,6 +38,17 @@ app.get("/workouts/:date", async (req, res) => {
     }
 })
 
+app.get("/workouts", async (req, res) => {
+    const date = req.params.date
+    try {
+        const workouts = await findAllWorkouts({})
+
+        res.send(workouts)
+    } catch (e) {
+        res.statusCode(500).send("Internal error")
+    }
+})
+
 app.post("/exercise", async (req, res) => {
     const data = req.body
     try {
